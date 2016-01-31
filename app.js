@@ -52,7 +52,7 @@ stream.pipe(parser).on('data', function(row) {
 	if (ico) {
 		async.retry({times: 3, interval: 3000}, queue.push.bind(queue, row), function(err) {
 			if (err) {
-				winston.error(ico, err);	
+				logger.error(ico, err);	
 			}
 		});
 	}
