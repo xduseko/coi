@@ -50,9 +50,9 @@ var queue = async.queue(function(row, callback) {
 stream.pipe(parser).on('data', function(row) {
 	var ico = row['IC subjektu'];
 	if (ico) {
-		async.retry(3, queue.push.bind(queue, row), function(err) {
+		async.retry({times: 3, interval: 3000}, queue.push.bind(queue, row), function(err) {
 			if (err) {
-				console.error(ico, err);	
+				winston.error(ico, err);	
 			}
 		});
 	}
