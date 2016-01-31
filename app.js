@@ -17,7 +17,14 @@ var logger = new winston.Logger({
 	transports: [
 		new winston.transports.Console(),
 		new winston.transports.File({
+			name: 'app',
 			filename: 'app.log',
+			json: false
+		}),
+		new winston.transports.File({
+			name: 'error',
+			filename: 'error.log',
+			level: 'warn',
 			json: false
 		})
 	]
@@ -39,15 +46,6 @@ var queue = async.queue(function(row, callback) {
 		callback(err);
 	});
 }, 8);
-
-/*
-stream.pipe(parser).on('data', function(row) {
-	var ico = row['IC subjektu'];
-	if (ico) {
-		queue.push(row);
-	}
-});
-*/
 
 stream.pipe(parser).on('data', function(row) {
 	var ico = row['IC subjektu'];
